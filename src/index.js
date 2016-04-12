@@ -4,7 +4,6 @@ import { readFileSync } from 'fs';
 
 import { fixAssetsInHtml } from './util';
 
-
 export default class HtmlRepath {
 
   static defaults = {
@@ -36,15 +35,12 @@ export default class HtmlRepath {
         nodir: true,
       };
       const htmlFiles = glob.sync('**/*.html', globOpts);
-
       htmlFiles.forEach((htmlFileName) => {
         const regxAfterName = htmlFileName.replace(opts.regx, opts.replace);
         const fileName = opts.regx ? normalize(regxAfterName) : htmlFileName;
         const dirHierarchy = fileName.split(sep).length - 1;
         const fixSourceRelativePath = '../'.repeat(dirHierarchy);
-
         const htmlContent = readFileSync(join(opts.cwd, htmlFileName), 'utf8');
-
         const fixHtmlContent = fixAssetsInHtml(htmlContent, fixSourceRelativePath);
         const assets = compilation.assets;
         assets[fileName] = {
