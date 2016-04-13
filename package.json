@@ -9,7 +9,8 @@
     "lint": "eslint src test",
     "test": "mocha --compilers js:babel-core/register",
     "test:watch": "npm run test -- --watch",
-    "test:cov": "babel-node $(npm bin)/babel-istanbul cover $(npm bin)/_mocha -- --no-timeouts"
+    "test:cov": "babel-node $(npm bin)/babel-istanbul cover $(npm bin)/_mocha -- --no-timeouts",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
