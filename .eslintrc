@@ -10,4 +10,8 @@
     "generators": 1,
     "experimentalObjectRestSpread": true
   },
+  "env": {
+    "node": true,
+    "mocha": true
+  }
 }

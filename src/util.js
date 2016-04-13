@@ -22,3 +22,11 @@ export function fixAssetsInHtml(htmlContent, fixSourceRelativePath) {
 
   return $.html();
 }
+
+export function isValidExpression(regx) {
+  try {
+    new RegExp(regx);
+  } catch (err) {
+    throw new Error(`${regx} is invalid regular expression`);
+  }
+}

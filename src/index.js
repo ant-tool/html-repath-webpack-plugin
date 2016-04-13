@@ -2,7 +2,7 @@ import { join, normalize, sep } from 'path';
 import glob from 'glob';
 import { readFileSync } from 'fs';
 
-import { fixAssetsInHtml } from './util';
+import { fixAssetsInHtml, isValidExpression } from './util';
 
 export default class HtmlRepath {
 
@@ -21,12 +21,7 @@ export default class HtmlRepath {
     compiler.plugin('emit', (compilation, callback) => {
       const opts = this.options;
       if (opts.regx) {
-        try {
-          new RegExp(opts.regx);
-        } catch (err) {
-          console.error(`${opts.regx} is invalid regular expression`);
-          process.exit(-1);
-        }
+        isValidExpression(opts.regx);
       }
 
       const globOpts = {
