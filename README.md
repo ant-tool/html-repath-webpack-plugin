@@ -27,7 +27,15 @@ Add new plugin instance to your `webpack` config
   const compiler = webpack({
     // ...
     plugins: [
-      new HtmlRepathPlugin()
+      new HtmlRepathPlugin(
+        regx: new RegExp(/(.+)\.html$/),
+        replace: function (i, match) {
+          return i.replace(match, '../../' + match)
+        },
+        ignore: ['dist/**/*.html','coverage/**/*.html'],
+        xFixAssets: false,
+        hash: true
+      )
     ]
   });
 ```
@@ -36,9 +44,11 @@ Add new plugin instance to your `webpack` config
 The plugin accepts the following options:
 
 - cwd: cwd
-- regx: like 'src\/'
-- replace: ''
+- regx: must be instance of RegExp
+- replace: must be a function return new path of html
 - ignore: pass through to glob
+- xFixAssets: do not fix assets paths in html but fix hash
+- hash: fix assets with hash paths in html 
 
 
 ### License

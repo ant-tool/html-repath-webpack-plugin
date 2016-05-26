@@ -1,3 +1,7 @@
+0.2.0 - 2016/5/26
+----------------------
+refactor: add params hash and xFixAssets
+
 0.1.1 - 2016/5/25
 ----------------------
 update pkg.files
