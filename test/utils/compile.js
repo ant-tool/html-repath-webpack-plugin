@@ -16,11 +16,11 @@ export default (plugin, hash, done) => {
     },
     output: {
       path: outDir,
-      filename: hash ? '[name]-[chunkhash].js' : '[name].js',
+      filename: hash ? '[name]-578184e8fb4a630f824f.js' : '[name].js',
     },
     plugins: [
       plugin,
-      hash ? new ExtractTextPlugin('[name]-[chunkhash].css', { allChunks: true }) :
+      hash ? new ExtractTextPlugin('[name]-578184e8fb4a630f824f.css', { allChunks: true }) :
              new ExtractTextPlugin('[name].css', { allChunks: true }),
     ],
     module: {
