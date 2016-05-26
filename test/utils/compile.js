@@ -8,7 +8,7 @@ process.chdir(srcDir);
 
 const outDir = join(__dirname, '..', 'tmp');
 
-export default (plugin, done) => {
+export default (plugin, hash, done) => {
   const config = {
     context: srcDir,
     entry: {
@@ -16,11 +16,12 @@ export default (plugin, done) => {
     },
     output: {
       path: outDir,
-      filename: '[name].js',
+      filename: hash ? '[name]-[chunkhash].js' : '[name].js',
     },
     plugins: [
       plugin,
-      new ExtractTextPlugin('[name].css', { allChunks: true }),
+      hash ? new ExtractTextPlugin('[name]-[chunkhash].css', { allChunks: true }) :
+             new ExtractTextPlugin('[name].css', { allChunks: true }),
     ],
     module: {
       loaders: [
