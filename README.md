@@ -6,7 +6,7 @@
 [![NPM downloads](http://img.shields.io/npm/dm/html-repath-webpack-plugin.svg?style=flat)](https://npmjs.org/package/html-repath-webpack-plugin)
 [![Dependency Status](https://david-dm.org/ant-tool/html-repath-webpack-plugin.svg)](https://david-dm.org/ant-tool/html-repath-webpack-plugin)
 
-Webpack plugin for generating html file with specified path
+Webpack plugin for generating html file with specified path, meanwhile fix assets path in html by configuration.
 
 ## Features
 Generates html files with specified path
