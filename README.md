@@ -27,7 +27,7 @@ Add new plugin instance to your `webpack` config
   const compiler = webpack({
     // ...
     plugins: [
-      new HtmlRepathPlugin(
+      new HtmlRepathPlugin({
         regx: new RegExp(/(.+)\.html$/),
         replace: function (i, match) {
           return i.replace(match, '../../' + match)
@@ -35,7 +35,7 @@ Add new plugin instance to your `webpack` config
         ignore: ['dist/**/*.html','coverage/**/*.html'],
         xFixAssets: false,
         hash: true
-      )
+      })
     ]
   });
 ```
