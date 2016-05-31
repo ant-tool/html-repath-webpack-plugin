@@ -1,3 +1,7 @@
+0.2.1 - 2016/5/31
+----------------------
+add: forceReletive
+
 0.2.0 - 2016/5/26
 ----------------------
 refactor: add params hash and xFixAssets

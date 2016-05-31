@@ -34,7 +34,8 @@ Add new plugin instance to your `webpack` config
         },
         ignore: ['dist/**/*.html','coverage/**/*.html'],
         xFixAssets: false,
-        hash: true
+        hash: true,
+        forceRelative: true
       })
     ]
   });
@@ -49,7 +50,7 @@ The plugin accepts the following options:
 - ignore: pass through to glob
 - xFixAssets: do not fix assets paths in html but fix hash
 - hash: fix assets with hash paths in html 
-
+- forceRelative: absolute path in html would regard as relative, USED FOR publicPath
 
 ### License
 MIT
