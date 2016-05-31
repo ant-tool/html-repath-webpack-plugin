@@ -14,6 +14,7 @@ export default class HtmlRepath {
     ignore: '',
     xFixAssets: false,
     hash: false,
+    forceRelative: false,
   };
 
   constructor(options) {
@@ -63,7 +64,13 @@ export default class HtmlRepath {
         if (!opts.xFixAssets) {
           fixSourceRelativePath = relative(dirname(join(outputPath, regxAfterName)), outputPath);
         }
-        htmlContent = fixAssetsInHtml(htmlContent, fixSourceRelativePath, map, opts.hash);
+        htmlContent = fixAssetsInHtml(
+          htmlContent,
+          fixSourceRelativePath,
+          map,
+          opts.hash,
+          opts.forceRelative
+        );
         assets[fileName] = {
           source: () => htmlContent,
           size: () => Buffer.byteLength(htmlContent, 'utf8'),

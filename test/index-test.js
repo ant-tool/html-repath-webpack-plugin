@@ -104,6 +104,26 @@ describe('HtmlRepathPlugin', () => {
       });
   });
 
+  it('with params: cwd, regx, replace specified - x/x/x/, hash and forceRelative', done => {
+    compile(
+      new HtmlRepathPlugin({
+        cwd: join(fixDir, 'src'),
+        regx: new RegExp(/(.+)\.html$/),
+        replace: function r(i, match) {
+          return i.replace(match, 'x/x/x/index');
+        },
+        hash: true,
+        xFixAssets: false,
+        forceRelative: true,
+      }), true, () => {
+        const now = readFileSync(join(tmpDir, 'x/x/x/index.html'), 'utf-8');
+        const path = join(expDir, 'with-params-cwd-regx-replace-hash-forceRelative.html');
+        const exp = readFileSync(path, 'utf-8');
+        expect(now).to.equal(exp);
+        done();
+      });
+  });
+
   it('util with invalid regx', done => {
     expect(isValidExpression).withArgs('*,djla$/').to.throwError();
     done();

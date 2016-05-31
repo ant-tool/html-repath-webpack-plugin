@@ -3,9 +3,12 @@ import isUrl from 'is-url';
 import isRelative from 'is-relative';
 import { load } from 'cheerio';
 
-function fixSourcePath($, selector, attr, fixAssetsPath, map, hash) {
+function fixSourcePath($, selector, attr, fixAssetsPath, map, hash, forceRelative) {
   $(selector).each(function () {
     let source = $(this).attr(attr);
+    if (forceRelative && !isUrl(source) && source.charAt(0) === '/') {
+      source = source.slice(1);
+    }
     if (source && !isUrl(source) && isRelative(source)) {
       source = normalize(source);
       const baseName = basename(source);
@@ -14,7 +17,8 @@ function fixSourcePath($, selector, attr, fixAssetsPath, map, hash) {
         const parseInfo = parse(source);
         const hashInfo = map[baseName];
         const dir = fixAssetsPath === false ? parseInfo.dir : fixAssetsPath;
-        newSourcePath = join(dir, `${parseInfo.name}-${hashInfo}${parseInfo.ext}`);
+        newSourcePath = hashInfo ?
+          join(dir, `${parseInfo.name}-${hashInfo}${parseInfo.ext}`) : join(dir, baseName);
       } else {
         newSourcePath = fixAssetsPath === false ? source : join(fixAssetsPath, baseName);
       }
@@ -23,11 +27,10 @@ function fixSourcePath($, selector, attr, fixAssetsPath, map, hash) {
   });
 }
 
-export function fixAssetsInHtml(htmlContent, fixAssetsPath, map, hash) {
+export function fixAssetsInHtml(htmlContent, fixAssetsPath, map, hash, forceRelative) {
   const $ = load(htmlContent);
-
-  fixSourcePath($, 'script', 'src', fixAssetsPath, map, hash);
-  fixSourcePath($, 'link[rel=stylesheet]', 'href', fixAssetsPath, map, hash);
+  fixSourcePath($, 'script', 'src', fixAssetsPath, map, hash, forceRelative);
+  fixSourcePath($, 'link[rel=stylesheet]', 'href', fixAssetsPath, map, hash, forceRelative);
 
   return $.html();
 }
