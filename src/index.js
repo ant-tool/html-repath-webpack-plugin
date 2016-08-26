@@ -51,7 +51,7 @@ export default class HtmlRepath {
           return _prev;
         }, {});
       }
-      const htmlFiles = glob.sync('**/*.html', globOpts);
+      const htmlFiles = glob.sync('**/*.+(html|htm)', globOpts);
       htmlFiles.forEach((htmlFileName) => {
         const regxAfterName = normalize(htmlFileName.replace(opts.regx, opts.replace));
         const fileName = opts.regx ? regxAfterName : htmlFileName;
