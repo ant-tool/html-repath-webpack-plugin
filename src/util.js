@@ -56,3 +56,22 @@ export function isValidReplace(replace) {
 
   return isValid;
 }
+
+export function filesMap(assets) {
+  let map = {};
+  if (!assets) {
+    return map;
+  }
+  map = Object.keys(assets).reduce((prev, item) => {
+    const _prev = prev;
+    const pathInfo = parse(item);
+    const spInfo = pathInfo.name.split('-');
+    const extname = pathInfo.ext;
+    const hash = spInfo[1];
+    const name = spInfo[0];
+    _prev[name + extname] = hash;
+
+    return _prev;
+  }, {});
+  return map;
+}

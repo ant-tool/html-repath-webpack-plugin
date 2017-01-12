@@ -1,6 +1,6 @@
 {
   "name": "html-repath-webpack-plugin",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "manage html output path by this plugin",
   "main": "index.js",
   "scripts": {

@@ -1,3 +1,7 @@
+0.2.3 - 2017/01/12
+----------------------
+feat: support repath inline assets src
+
 0.2.2 - 2016/8/26
 ----------------------
 feat: support .htm files

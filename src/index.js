@@ -1,9 +1,10 @@
-import { join, normalize, parse, relative, dirname } from 'path';
+import { join, normalize, relative, dirname } from 'path';
 import isRelative from 'is-relative';
 import glob from 'glob';
 import { readFileSync } from 'fs';
 
-import { fixAssetsInHtml, isValidExpression, isValidReplace } from './util';
+import { fixAssetsInHtml, isValidExpression, isValidReplace, filesMap } from './util';
+import hashReplace from './hashReplace';
 
 export default class HtmlRepath {
 
@@ -14,6 +15,7 @@ export default class HtmlRepath {
     ignore: '',
     xFixAssets: false,
     hash: false,
+    hashFix: false,
     forceRelative: false,
   };
 
@@ -22,12 +24,16 @@ export default class HtmlRepath {
   }
 
   apply(compiler) {
+    const opts = this.options;
+    const { hashFix } = opts;
+    if (hashFix) {
+      hashReplace(compiler);
+      return;
+    }
     const context = normalize(compiler.context);
     let outputPath = normalize(compiler.options.output.path);
     outputPath = isRelative(outputPath) ? join(context, outputPath) : outputPath;
     compiler.plugin('emit', (compilation, callback) => {
-      const opts = this.options;
-
       if (!isValidExpression(opts.regx) || !isValidReplace(opts.replace)) {
         return;
       }
@@ -39,17 +45,7 @@ export default class HtmlRepath {
       const assets = compilation.assets;
       let map = {};
       if (opts.hash) {
-        map = Object.keys(assets).reduce((prev, item) => {
-          const _prev = prev;
-          const pathInfo = parse(item);
-          const spInfo = pathInfo.name.split('-');
-          const extname = pathInfo.ext;
-          const hash = spInfo[1];
-          const name = spInfo[0];
-          _prev[name + extname] = hash;
-
-          return _prev;
-        }, {});
+        map = filesMap(assets);
       }
       const htmlFiles = glob.sync('**/*.+(html|htm)', globOpts);
       htmlFiles.forEach((htmlFileName) => {

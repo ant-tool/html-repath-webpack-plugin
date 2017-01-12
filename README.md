@@ -48,8 +48,9 @@ The plugin accepts the following options:
 - regx: must be instance of RegExp
 - replace: must be a function return new path of html
 - ignore: pass through to glob
+- hashFix: fix atool-build assets hash repath
 - xFixAssets: do not fix assets paths in html but fix hash
-- hash: fix assets with hash paths in html 
+- hash: fix assets with hash paths in html
 - forceRelative: absolute path in html would regard as relative, USED FOR publicPath
 
 ### License
