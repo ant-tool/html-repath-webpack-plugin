@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import rimraf from 'rimraf';
 import compile from './utils/compile';
 import HtmlRepathPlugin from '../src';
-import { isValidExpression, isValidReplace } from '../src/util';
+import { isValidExpression, isValidReplace, filesMap } from '../src/util';
 
 const fixDir = join(__dirname, 'fixtures');
 const expDir = join(__dirname, 'expect');
@@ -124,6 +124,22 @@ describe('HtmlRepathPlugin', () => {
       });
   });
 
+  it('with params: hashFix', done => {
+    // 需要补充更详细的用例
+    compile(
+      new HtmlRepathPlugin({
+        hashFix: true,
+        hash: true,
+      }), true, () => {
+        const now = readFileSync(join(tmpDir, 'x/x/x/index.html'), 'utf-8');
+        const path = join(expDir, 'with-hashFix.html');
+        const exp = readFileSync(path, 'utf-8');
+        expect(now).to.equal(exp);
+        done();
+      });
+    done();
+  });
+
   it('util with invalid regx', done => {
     expect(isValidExpression).withArgs('*,djla$/').to.throwError();
     done();
@@ -131,6 +147,18 @@ describe('HtmlRepathPlugin', () => {
 
   it('util with invalid replace', done => {
     expect(isValidReplace).withArgs('*,djla$/').to.throwError();
+    done();
+  });
+
+  it('util with filesMap', done => {
+    const arg = {
+      'test-abc.js': {},
+      'check-abc.css': {},
+      'aaa.html': '',
+    };
+    expect(filesMap('')).to.eql({});
+    const result = expect(filesMap(arg));
+    result.to.have.property('test.js', 'abc');
     done();
   });
 });
